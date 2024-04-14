@@ -5,176 +5,263 @@ This backend API for a Travel Diary Platform allows users to create, read, updat
 
 ## Table of Contents
 
-1. [Setup](#setup)
-2. [Usage](#usage)
-3. [API Documentation](#api-documentation)
-4. [OOP Concepts](#oop-concepts)
+1. [Setup and Usage Instruction](#setup-and-usage-instruction)
+2. [API Documentation](#api-documentation)
+3. [OOP Concepts](#oop-concepts)
 
-#### Setup
+
+## Setup and Usage Instruction
 
 Follow these steps to set up the Travel Diary Platform backend API:
 
-1. **Clone the repository:**
+1. **Clone the repository to your local machine:**
+   
+     ```bash
+     git clone https://github.com/your-username/travel-diary-backend.git
+   
+3. **Install dependencies:**
+   
    ```bash
-   git clone https://github.com/your-username/travel-diary-backend.git
-   cd travel-diary-backend
-Install dependencies:
+   npm install
+   
+5. **Start the server:**
+   
+    ```bash
+      npm start
+    
+The server will start running on http://localhost:3000.
 
-bash
-Copy code
-npm install
-Configure environment variables:
-Create a .env file in the root directory and define the following variables:
 
-plaintext
-Copy code
-PORT=3000
-SECRET_KEY=your-secret-key
-Start the server:
+## API Documentation
+## User Routes
 
-bash
-Copy code
-npm start
-The API server will start running on port 3000 by default.
-
-Usage
-To use the Travel Diary Platform backend API, you can interact with the provided API endpoints using tools like curl, Postman, or any HTTP client library.
-
-Make sure to follow the API documentation below for details on each endpoint and their request/response formats.
-
-API Documentation
-User Routes
-Register User
-URL: /user/register
-Method: POST
-Request Body:
-json
-Copy code
-{
-  "username": "example_user",
-  "password": "password123"
-}
-Response:
-Status: 201 Created
-Body:
-json
-Copy code
-{
-  "message": "User registered successfully",
-  "user": {
-    "id": 1,
-    "username": "example_user"
-  }
-}
-Login User
-URL: /user/login
-Method: POST
-Request Body:
-json
-Copy code
-{
-  "username": "example_user",
-  "password": "password123"
-}
-Response:
-Status: 200 OK
-Body:
-json
-Copy code
-{
-  "message": "Login successful",
-  "token": "your-authentication-token"
-}
-Diary Entry Routes
-Get All Entries
-URL: /entries
-Method: GET
-Authorization: Bearer your-authentication-token
-Response:
-Status: 200 OK
-Body:
-json
-Copy code
-[
+ ### 1. Register User
+- **URL:** `/user/register`
+- **Method:** POST
+- **Request Body:**
+  ```json
   {
-    "id": 1,
-    "title": "My Trip to Paris",
-    "description": "Visited famous landmarks such as the Eiffel Tower and the Louvre Museum.",
-    "date": "2024-04-14",
-    "location": "Paris, France",
-    "photos": [
-      "https://example.com/photo1.jpg",
-      "https://example.com/photo2.jpg"
-    ]
+    "username": "example_user",
+    "password": "password123"
   }
-]
-Create Entry
-URL: /entries
-Method: POST
-Authorization: Bearer your-authentication-token
-Request Body:
-json
-Copy code
-{
-  "title": "My Trip to Paris",
-  "description": "Visited famous landmarks such as the Eiffel Tower and the Louvre Museum.",
-  "date": "2024-04-14",
-  "location": "Paris, France",
-  "photos": [
-    "https://example.com/photo1.jpg",
-    "https://example.com/photo2.jpg"
-  ]
-}
-Response:
-Status: 201 Created
-Body:
-json
-Copy code
-{
-  "message": "Diary entry created successfully",
-  "entry": {
-    "id": 1,
-    "title": "My Trip to Paris",
-    "description": "Visited famous landmarks such as the Eiffel Tower and the Louvre Museum.",
-    "date": "2024-04-14",
-    "location": "Paris, France",
-    "photos": [
-      "https://example.com/photo1.jpg",
-      "https://example.com/photo2.jpg"
-    ]
+- **Success Response:**
+   - **Status:** `201 Created`
+   - **Response Body:**
+  ```json
+  {
+     "message": "User registered successfully",
+     "user": {
+        "id": 1,
+        "username": "example_user"
+       }
   }
-}
-Update Entry
-URL: /entries/:entryId
-Method: PUT
-Authorization: Bearer your-authentication-token
-Request Body:
-json
-Copy code
-{
-  "title": "Updated Title",
-  "description": "Updated description",
+
+- **Error Response:**
+   - **Status Code:** `500 Internal Server Error`
+   - **Response Body:**
+  ```json
+   {
+     "message": "Failed to register user",
+     "error": "Error message"
+   }
+
+
+### 2. Login User
+- **URL:** `/user/login`
+- **Method:** POST
+- **Request Body:**
+  ```json
+  {
+    "username": "example_user",
+    "password": "password123"
+  }
+  
+- **Success Response:**
+   - **Status:** `200 OK`
+   - **Response Body:**
+  ```json
+  {
+  "message": "Login successful",
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+  }
+
+- **Error Response:**
+   - **Status Code:** `401 Unauthorized`
+   - **Response Body:**
+  ```json
+   {
+  "message": "Authentication failed"
+   }
+
+  
+## Dairy Entry Routes
+### 1. Create Diary Entry
+- **URL:** `/entries`
+- **Method:** POST
+- **Request Body:**
+  ```json
+  {
+  "title": "Trip to Paris",
+  "description": "Visited the Eiffel Tower and enjoyed French cuisine.",
   "date": "2024-04-15",
-  "location": "New York, USA",
-  "photos": [
-    "https://example.com/photo3.jpg"
+  "location": "Paris, France",
+  "photos": ["https://example.com/photo1.jpg", "https://example.com/photo2.jpg"]
+  }
+- **Headers:**
+  ```
+  Authorization: Bearer <token>
+- **Success Response:**
+   - **Status:** `201 Created`
+   - **Response Body:**
+  ```json
+  {
+    "message": "Diary entry created successfully",
+    "entry": {
+       "id": 1,
+       "title": "Trip to Paris",
+       "description": "Visited the Eiffel Tower and enjoyed French cuisine.",
+       "date": "2024-04-15",
+       "location": "Paris, France",
+       "photos": ["https://example.com/photo1.jpg", "https://example.com/photo2.jpg"]
+     }
+  }
+- **Error Response:**
+   - **Status Code:** `401 Unauthorized`
+   - **Response Body:**
+  ```json
+   {
+  "message": "Authentication failed"
+   }
+
+### 2. Gell all Entries
+- **URL:** `/entries`
+- **Method:** GET
+- **Headers:**
+  ```
+  Authorization: Bearer <token>
+- **Success Response:**
+   - **Status:** `201 OK`
+   - **Response Body:**
+  ```json
+  [
+   {
+    "id": 1,
+    "title": "Trip to Paris",
+    "description": "Visited the Eiffel Tower and enjoyed French cuisine.",
+    "date": "2024-04-15",
+    "location": "Paris, France",
+    "photos": ["https://example.com/photo1.jpg", "https://example.com/photo2.jpg"]
+   },
+   {
+    "id": 2,
+    "title": "Hiking in the Rockies",
+    "description": "Explored scenic trails and breathtaking views.",
+    "date": "2024-06-20",
+    "location": "Rocky Mountains, USA",
+    "photos": ["https://example.com/photo3.jpg"]
+    }
   ]
-}
-Response:
-Status: 200 OK
-Body:
-json
-Copy code
-{
+- **Error Response:**
+   - **Status Code:** `401 Unauthorized`
+   - **Response Body:**
+  ```json
+   {
+  "message": "Authentication failed"
+   }
+  
+### 3. Get Diary Entry by ID
+- **URL:** `/entries/:entryId`
+- **Method:** GET
+- **Headers:**
+  ```
+  Authorization: Bearer <token>
+- **Success Response:**
+   - **Status:** `201 OK`
+   - **Response Body:**
+  ```json
+  {
+  "id": 1,
+  "title": "Trip to Paris",
+  "description": "Visited the Eiffel Tower and enjoyed French cuisine.",
+  "date": "2024-04-15",
+  "location": "Paris, France",
+  "photos": ["https://example.com/photo1.jpg", "https://example.com/photo2.jpg"]
+  }
+- **Error Response:**
+   - **Status Code:** `401 Unauthorized`
+   - **Response Body:**
+  ```json
+   {
+  "message": "Authentication failed"
+   }
+
+### 4. Update Diary Entry by ID
+- **URL:** `/entries/:entryId`
+- **Method:** PUT
+- **Request Body:**
+  ```json
+  {
+  "title": "Updated title",
+  "description": "Updated description",
+  "date": "2024-04-16",
+  "location": "Updated location",
+  "photos": ["https://example.com/updated-photo1.jpg"]
+  }
+
+- **Headers:**
+  ```
+  Authorization: Bearer <token>
+- **Success Response:**
+   - **Status:** `201 OK`
+   - **Response Body:**
+  ```json
+  {
   "message": "Diary entry updated successfully",
   "entry": {
     "id": 1,
-    "title": "Updated Title",
+    "title": "Updated title",
     "description": "Updated description",
-    "date": "2024-04-15",
-    "location": "New York, USA",
-    "photos": [
-      "https://example.com/photo3.jpg"
-    ]
+    "date": "2024-04-16",
+    "location": "Updated location",
+    "photos": ["https://example.com/updated-photo1.jpg"]
+   }
   }
-}
+- **Error Response:**
+   - **Status Code:** `401 Unauthorized`
+   - **Response Body:**
+  ```json
+   {
+  "message": "Authentication failed"
+   }
+
+### 5. Delete Diary Entry by ID
+- **URL:** `/entries/:entryId`
+- **Method:** DELETE
+- **Headers:**
+  ```
+  Authorization: Bearer <token>
+- **Success Response:**
+   - **Status:** `201 OK`
+   - **Response Body:**
+  ```json
+  {
+  "message": "Diary entry deleted successfully"
+  }
+- **Error Response:**
+   - **Status Code:** `401 Unauthorized`
+   - **Response Body:**
+  ```json
+   {
+  "message": "Authentication failed"
+   }
+
+
+## OOP Concepts
+
+- **Encapsulation**: Models encapsulate data and behavior related to users and diary entries. They hide internal implementation details and provide clean interfaces for interacting with data.
+- **Modularity**: The codebase is organized into separate modules for models, controllers, routes, and middlewares, promoting modularity and maintainability.
+- **Abstraction**: Controllers abstract away the complexity of interacting with the database by providing high-level methods for CRUD operations.
+- **Inheritance**: Inheritance is not explicitly used in this project, but it could be applied if there were additional entities or functionalities to be modeled.
+
+
+  

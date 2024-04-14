@@ -10,7 +10,7 @@ This backend API for a Travel Diary Platform allows users to create, read, updat
 3. [API Documentation](#api-documentation)
 4. [OOP Concepts](#oop-concepts)
 
-## Setup
+#### Setup
 
 Follow these steps to set up the Travel Diary Platform backend API:
 
